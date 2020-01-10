@@ -12,8 +12,7 @@ const extractor = (address,callback)=>{
         }
         else{
         const latitude = response.body.features[0].center[1]
-        const longitude = response.body.features[0].center[0]
-        // callback(response.body.features[0].place_name+"\nLatitute:"+latitute+"\nLongitute:"+longitute) 
+        const longitude = response.body.features[0].center[0] 
         callback(undefined,{//yaha pr undefined add kr rhe h forthe error in the callback
             place_name:response.body.features[0].place_name,
             latitude:response.body.features[0].center[1],
