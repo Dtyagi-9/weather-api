@@ -3,7 +3,7 @@ const chalk = require('chalk')
 
 
 const forecast1 = (latitude,longitude,callback)=>{
-    //only taking precipitation from this api
+    //Darksky API call 
     let url = 'https://api.darksky.net/forecast/1264232d7c486804023c679f7c12ec4b/'+latitude+','+longitude
     request({url:url,json:true},(error,response)=>{
     if(error){
@@ -18,7 +18,7 @@ const forecast1 = (latitude,longitude,callback)=>{
     })   
 }
 const forecast2 = (latitude,longitude,callback)=>{
-    //only taking precipitation from this api
+    //OpenWeather API call
     let url = 'https://api.openweathermap.org/data/2.5/weather?lat='+latitude+'&lon='+longitude+'&APPID=81b717124c273e260289e38b838edb0a'    
     request({url:url,json:true},(error,response)=>{
     if(error){
