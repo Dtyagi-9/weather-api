@@ -1,17 +1,15 @@
 const express = require('express')
-const port = 5000;
+const port = 5001;
 const app = express();
 const request = require('request')
 const loc = require('./utils/locationextractor.js')
 const forecast = require('./utils/forecast.js')
 
-app.get("/api",(req,res)=>{
-//to store final result data
-const result_data ={}
-
+app.get('/weather', (req, res) => {
+    const result_data ={}
 //to pass the loction as an argument in cli
 //please modify the way in which you wish to accept to location parameter 
-const place = process.argv[2]
+const place = req.query.add
 if(!place){
     console.log('location not specified')
 }
@@ -27,7 +25,7 @@ else{
             //API used : openWeather and darksky.net 
             forecast.forecast1(data.latitude,data.longitude, (error, forecastData) => {
                 if(error){
-                    console.log('Error', error)
+                   return console.log('Error', error)
                 }
                 else{
                     //embedding location coordinates in result data
@@ -41,8 +39,7 @@ else{
                     result_data.precipProbability = forecastData.precipProbability
                     forecast.forecast2(data.latitude,data.longitude, (error, forecastData) => {
                         if(error){
-                            //console.log('Error', error)
-                            res.status(500).send(error.message);
+                            return res.status(500).send(error.message);
                         }
                         else{
                             //embedding various req parameters and results in result data
@@ -50,7 +47,7 @@ else{
                             result_data.pressure = forecastData.main.pressure;
                             result_data.wind_speed = forecastData.wind.speed;
                             result_data.wind_deg = forecastData.wind.deg;
-                            res.status(200).send(result_data);                        }
+                            return res.status(200).send(result_data);                        }
                     })
                 }
             })
@@ -64,10 +61,7 @@ else{
 
 });
 
-
-
-//1
-var server = app.listen(5000, function () {
+var server = app.listen(5001, function () {
     var host = server.address().address;
     var port = server.address().port;
     console.log('running at http://' + host + ':' + port)
